@@ -13,6 +13,10 @@ main = hakyll $ do
         route   idRoute
         compile compressCssCompiler
 
+    match "js/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     -- Build pages from Markdown with YAML headers
     match (fromList ["about.md", "contact.md"]) $ do
         route   $ setExtension "html"
