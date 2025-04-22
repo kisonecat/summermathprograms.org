@@ -1,0 +1,33 @@
+{-# LANGUAGE OverloadedStrings #-}
+import Hakyll
+
+main :: IO ()
+main = hakyll $ do
+    -- Copy static files
+    match "images/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
+    match "css/*" $ do
+        route   idRoute
+        compile compressCssCompiler
+
+    -- Build pages from Markdown with YAML headers
+    match (fromList ["about.md", "contact.md"]) $ do
+        route   $ setExtension "html"
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/default.html" defaultContext
+            >>= relativizeUrls
+
+    -- Posts
+    match "posts/*" $ do
+        route $ setExtension "html"
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/post.html" postCtx
+            >>= loadAndApplyTemplate "templates/default.html" postCtx
+            >>= relativizeUrls
+      where
+        postCtx = dateField "date" "%B %e, %Y" <> defaultContext
+
+    -- Templates
+    match "templates/*" $ compile templateBodyCompiler
