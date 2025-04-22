@@ -26,8 +26,8 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/post.html" postCtx
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
-      where
-        postCtx = dateField "date" "%B %e, %Y" <> defaultContext
 
     -- Templates
     match "templates/*" $ compile templateBodyCompiler
+  where
+    postCtx = dateField "date" "%B %e, %Y" <> defaultContext
