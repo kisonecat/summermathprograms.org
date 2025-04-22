@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- Build with: stack build --nix ; Run with: stack exec site
 import Hakyll
 
 main :: IO ()
