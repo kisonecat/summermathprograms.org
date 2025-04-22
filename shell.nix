@@ -5,4 +5,7 @@ pkgs.haskellPackages.shellFor {
   packages = p: [ p.hakyll ];
   tools = [ pkgs.stack ];
   buildInputs = [ pkgs.zlib ];
+  shellHook = ''
+    export LIBRARY_PATH=${pkgs.zlib}/lib:$LIBRARY_PATH
+  '';
 }
