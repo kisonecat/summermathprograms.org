@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "build:js": "esbuild src/js/index.js --bundle --outfile=static/js/bundle.js --minify",
-    "build:css": "postcss src/css/tailwind.css -o static/css/main.css",
+    "build:css": "npx postcss src/css/tailwind.css -o static/css/main.css",
     "build": "npm run build:js && npm run build:css",
     "watch:js": "esbuild src/js/index.js --bundle --outfile=static/js/bundle.js --watch",
-    "watch:css": "postcss src/css/tailwind.css -o static/css/main.css --watch"
+    "watch:css": "npx postcss src/css/tailwind.css -o static/css/main.css --watch"
   },
   "devDependencies": {
     "esbuild": "^0.18.0",
