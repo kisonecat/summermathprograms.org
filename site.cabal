@@ -9,7 +9,6 @@ license-file:        LICENSE
 category:            Web
 author:              Your Name
 maintainer:          your.email@example.com
-build-depends:       base >=4.7 && <5, hakyll >=4.12, directory, filepath
 
 executable site
   main-is:             site.hs
