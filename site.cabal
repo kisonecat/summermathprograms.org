@@ -4,7 +4,7 @@ version:             0.1.0.0
 build-type:          Simple
 synopsis:            A Hakyll static site generator
 description:         A simple static site generator using Hakyll.
-license:             BSD3
+license:             AGPL-3.0-only
 license-file:        LICENSE
 category:            Web
 author:              Your Name
