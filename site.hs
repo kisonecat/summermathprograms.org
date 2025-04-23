@@ -106,7 +106,7 @@ main = hakyll $ do
             items     <- (loadAll "programs/*/index.md" :: Compiler [Item String])
             -- for each one, look up its front‐matter
             metadata  <- forM items $ \item ->
-              getMetadata (itemIdentifier item)
+              getMetadata (itemIdentifier item) `catchError` (\_ -> return M.empty)
             -- metadata :: [M.Map String String]
             let json = BL.unpack (encode metadata)
             makeItem json
