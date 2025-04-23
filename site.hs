@@ -41,5 +41,5 @@ main = hakyll $ do
 
     -- Templates
     match "templates/*" $ compile templateBodyCompiler
-  where
+where
     postCtx = dateField "date" "%B %e, %Y" <> assetCtx
