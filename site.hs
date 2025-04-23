@@ -3,16 +3,11 @@
 import Hakyll
 import Control.Arrow ((>>>))
 
-partialField :: Context String
-partialField = functionField "partial" $ \args _ ->
-    case args of
-        [path] -> loadBody (fromFilePath path)
-        _       -> fail "partial: expected a single argument"
-
 main :: IO ()
 main = hakyll $ do
-        let assetCtx = defaultContext <> partialField
+        let assetCtx = defaultContext
             postCtx = dateField "date" "%B %e, %Y" <> assetCtx
+
         -- Copy static files
         match "images/*" $ do
             route   idRoute
@@ -28,7 +23,7 @@ main = hakyll $ do
 
         -- Build pages from Markdown with YAML headers
         match "pages/*.md" $ do
-            route $ customRoute (takeBaseName . toFilePath >>> (<.> "html"))
+            route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension "html"
             compile $ pandocCompiler
                 >>= loadAndApplyTemplate "templates/default.html" assetCtx
                 >>= relativizeUrls
