@@ -5,15 +5,23 @@ import Hakyll
 import Control.Arrow ((>>>))
 import Control.Monad (forM)
 import System.FilePath (takeDirectory, dropExtension, takeFileName)
+import Data.List (stripPrefix)
 import Data.Aeson (encode)
 import qualified Data.ByteString.Lazy.Char8 as BL
 import qualified Data.Map as M
 
 cleanRoute :: Routes
 cleanRoute = customRoute $ \ident ->
-  let fp   = toFilePath ident
-      name = dropExtension (takeFileName fp)
-  in name ++ "/index.html"
+  let fp  = toFilePath ident
+      rel = case stripPrefix "pages/" fp of
+              Just r  -> r
+              Nothing -> fp
+      dir  = takeDirectory rel
+      file = dropExtension (takeFileName rel)
+  in if file == "index"
+     then if null dir then "index.html" else dir ++ "/index.html"
+     else if null dir then file ++ "/index.html"
+          else dir ++ "/" ++ file ++ "/index.html"
 
 main :: IO ()
 main = hakyll $ do
