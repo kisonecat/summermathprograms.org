@@ -4,7 +4,7 @@ import Hakyll
 
 main :: IO ()
 main = hakyll $ do
-    let cacheBustCtx = constField "cacheBust" "v=2684b4a" <> defaultContext
+    let cacheBustCtx = defaultContext <> constField "cacheBust" "v=2684b4a"
     -- Copy static files
     match "images/*" $ do
         route   idRoute
