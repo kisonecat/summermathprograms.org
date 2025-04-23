@@ -21,7 +21,8 @@ main = hakyll $ do
 
     -- Build pages from Markdown with YAML headers
     match "pages/*.md" $ do
-        route   $ gsubRoute "pages/" (const "") `composeRoutes` setExtension "html"
+        route   $ customRoute (\ident ->
+            let p = toFilePath ident in drop (length "pages/") p ++ ".html")
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" assetCtx
             >>= relativizeUrls
