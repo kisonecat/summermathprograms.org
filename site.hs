@@ -33,6 +33,12 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/default.html" assetCtx
                 >>= relativizeUrls
 
+        match "pages/for/*.md" $ do
+            route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension "html"
+            compile $ pandocCompiler
+                >>= loadAndApplyTemplate "templates/default.html" assetCtx
+                >>= relativizeUrls
+
         -- Programs pages: convert programs/*/index.md to programs/<directory>.html
         match "programs/*/index.md" $ do
             route $ customRoute (\identifier ->
