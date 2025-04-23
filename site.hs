@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- Build with: stack build --nix ; Run with: stack exec site
 import Hakyll
+import Hakyll.Contrib.Routes.CleanRoute (cleanRoute)
 import Control.Arrow ((>>>))
 import Control.Monad (forM)
 import System.FilePath (takeDirectory)
@@ -28,13 +29,13 @@ main = hakyll $ do
 
         -- Build pages from Markdown with YAML headers
         match "pages/*.md" $ do
-            route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension "html"
+            route cleanRoute
             compile $ pandocCompiler
                 >>= loadAndApplyTemplate "templates/default.html" assetCtx
                 >>= relativizeUrls
 
         match "pages/for/*.md" $ do
-            route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension "html"
+            route cleanRoute
             compile $ pandocCompiler
                 >>= loadAndApplyTemplate "templates/default.html" assetCtx
                 >>= relativizeUrls
@@ -42,14 +43,16 @@ main = hakyll $ do
         -- Programs pages: convert programs/*/index.md to programs/<directory>.html
         match "programs/*/index.md" $ do
             route $ customRoute (\identifier ->
-                let p = toFilePath identifier in (takeDirectory p) ++ ".html")
+                let fp = toFilePath identifier
+                    dir = takeDirectory fp
+                in dir ++ "/index.html")
             compile $ pandocCompiler
                 >>= loadAndApplyTemplate "templates/default.html" assetCtx
                 >>= relativizeUrls
 
         -- Posts
         match "posts/*" $ do
-            route $ setExtension "html"
+            route cleanRoute
             compile $ pandocCompiler
                 >>= loadAndApplyTemplate "templates/post.html" postCtx
                 >>= loadAndApplyTemplate "templates/default.html" postCtx
