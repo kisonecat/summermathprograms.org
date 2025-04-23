@@ -9,6 +9,9 @@ import Data.List (stripPrefix)
 import Data.Aeson (encode)
 import qualified Data.ByteString.Lazy.Char8 as BL
 import qualified Data.Map as M
+import Data.Time (getCurrentTime)
+import Data.Time.Calendar (toGregorian)
+import Data.Time.Clock (utctDay)
 
 cleanRoute :: Routes
 cleanRoute = customRoute $ \ident ->
@@ -23,9 +26,15 @@ cleanRoute = customRoute $ \ident ->
      else if null dir then file ++ "/index.html"
           else dir ++ "/" ++ file ++ "/index.html"
 
+theYearField :: Context String
+theYearField = field "theYear" $ \_ -> do
+    time <- unsafeCompiler getCurrentTime
+    let (_, year, _) = toGregorian (utctDay time)
+    return (show year)
+
 main :: IO ()
 main = hakyll $ do
-        let assetCtx = defaultContext
+        let assetCtx = defaultContext <> theYearField
             postCtx = dateField "date" "%B %e, %Y" <> assetCtx
 
         -- Copy static files
