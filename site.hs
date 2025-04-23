@@ -3,6 +3,8 @@
 import Hakyll
 import Control.Arrow ((>>>))
 import System.FilePath (takeDirectory)
+import Data.Aeson (encode)
+import qualified Data.ByteString.Lazy.Char8 as BL
 
 main :: IO ()
 main = hakyll $ do
@@ -44,6 +46,15 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/post.html" postCtx
                 >>= loadAndApplyTemplate "templates/default.html" postCtx
                 >>= relativizeUrls
+
+        -- Generate programs.json from YAML front matter of programs/*/index.md
+        create ["programs.json"] $ do
+            route idRoute
+            compile $ do
+                programs <- loadAll "programs/*/index.md"
+                metadataList <- mapM (getMetadata . itemIdentifier) programs
+                let json = BL.unpack (encode metadataList)
+                makeItem json
 
         -- Templates
         match "templates/*" $ compile templateBodyCompiler
