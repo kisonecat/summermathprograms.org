@@ -3,9 +3,12 @@
 import Hakyll
 
 main :: IO ()
-main = hakyll $ do
-    let assetCtx = defaultContext
-        postCtx = dateField "date" "%B %e, %Y" <> assetCtx
+main = do
+    header <- unsafeCompiler $ readFile "templates/header.html"
+    footer <- unsafeCompiler $ readFile "templates/footer.html"
+    hakyll $ do
+        let assetCtx = constField "header" header <> constField "footer" defaultContext
+            postCtx = dateField "date" "%B %e, %Y" <> assetCtx
     -- Copy static files
     match "images/*" $ do
         route   idRoute
