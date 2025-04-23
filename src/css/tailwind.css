@@ -26,4 +26,7 @@
 .prose a {
     @apply text-blue-600 hover:underline;
 }
+.prose hr {
+    @apply border-t border-gray-300 my-8;
+}
 
