@@ -5,6 +5,7 @@ import Control.Arrow ((>>>))
 import System.FilePath (takeDirectory)
 import Data.Aeson (encode)
 import qualified Data.ByteString.Lazy.Char8 as BL
+import qualified Data.Map as M
 
 main :: IO ()
 main = hakyll $ do
@@ -51,8 +52,8 @@ main = hakyll $ do
         create ["programs.json"] $ do
             route idRoute
             compile $ do
-                programs <- (loadAll "programs/*/index.md" :: Compiler [Item String])
-                metadataList <- mapM (getMetadata . itemIdentifier) programs
+                metadataMap <- loadAllMetadata "programs/*/index.md"
+                let metadataList = M.elems metadataMap
                 let json = BL.unpack (encode metadataList)
                 makeItem json
 
