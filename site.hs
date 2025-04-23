@@ -12,6 +12,7 @@ import qualified Data.Map as M
 import Data.Time (getCurrentTime)
 import Data.Time.Calendar (toGregorian)
 import Data.Time.Clock (utctDay)
+import Text.Pandoc.Definition (Pandoc(..), Block(..))
 
 cleanRoute :: Routes
 cleanRoute = customRoute $ \ident ->
@@ -31,6 +32,9 @@ theYear = field "theYear" $ \_ -> do
     time <- unsafeCompiler getCurrentTime
     let (year, _, _) = toGregorian (utctDay time)
     return (show year)
+
+addProseDiv :: Pandoc -> Pandoc
+addProseDiv (Pandoc meta blocks) = Pandoc meta [Div ("", ["prose", "prose-lg", "mx-auto"], []) blocks]
 
 main :: IO ()
 main = hakyll $ do
@@ -53,13 +57,13 @@ main = hakyll $ do
         -- Build pages from Markdown with YAML headers
         match "pages/*.md" $ do
             route cleanRoute
-            compile $ pandocCompiler
+            compile $ pandocCompilerWithTransform defaultHakyllReaderOptions defaultHakyllWriterOptions addProseDiv
                 >>= loadAndApplyTemplate "templates/default.html" assetCtx
                 >>= relativizeUrls
 
         match "pages/for/*.md" $ do
             route cleanRoute
-            compile $ pandocCompiler
+            compile $ pandocCompilerWithTransform defaultHakyllReaderOptions defaultHakyllWriterOptions addProseDiv
                 >>= loadAndApplyTemplate "templates/default.html" assetCtx
                 >>= relativizeUrls
 
@@ -69,14 +73,14 @@ main = hakyll $ do
                 let fp = toFilePath identifier
                     dir = takeDirectory fp
                 in dir ++ "/index.html")
-            compile $ pandocCompiler
+            compile $ pandocCompilerWithTransform defaultHakyllReaderOptions defaultHakyllWriterOptions addProseDiv
                 >>= loadAndApplyTemplate "templates/default.html" assetCtx
                 >>= relativizeUrls
 
         -- Posts
         match "posts/*" $ do
             route cleanRoute
-            compile $ pandocCompiler
+            compile $ pandocCompilerWithTransform defaultHakyllReaderOptions defaultHakyllWriterOptions addProseDiv
                 >>= loadAndApplyTemplate "templates/post.html" postCtx
                 >>= loadAndApplyTemplate "templates/default.html" postCtx
                 >>= relativizeUrls
