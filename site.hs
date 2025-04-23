@@ -3,12 +3,15 @@
 import Hakyll
 import Control.Arrow ((>>>))
 
+partialField :: Context String
+partialField = functionField "partial" $ \args _ ->
+    case args of
+        [path] -> loadBody (fromFilePath path)
+        _       -> fail "partial: expected a single argument"
+
 main :: IO ()
-main = do
-    header <- unsafeCompiler $ readFile "templates/header.html"
-    footer <- unsafeCompiler $ readFile "templates/footer.html"
-    hakyll $ do
-        let assetCtx = defaultContext
+main = hakyll $ do
+        let assetCtx = defaultContext <> partialField
             postCtx = dateField "date" "%B %e, %Y" <> assetCtx
         -- Copy static files
         match "images/*" $ do
