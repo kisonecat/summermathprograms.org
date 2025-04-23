@@ -85,9 +85,10 @@ main = hakyll $ do
         -- Generate program card partials for each program markdown file
         match "programs/*/index.md" $ version "card" $ do
             route $ customRoute (\ident ->
-                let fp = toFilePath ident
-                    dir = takeDirectory fp
-                in "partials/" ++ dir ++ ".html")
+                let fp       = toFilePath ident
+                    dir      = takeDirectory fp
+                    cardName = takeFileName dir
+                in "partials/programs/" ++ cardName ++ ".html")
             compile $ pandocCompilerWithTransform defaultHakyllReaderOptions defaultHakyllWriterOptions addProseDiv
                 >>= loadAndApplyTemplate "templates/program_partial.html" programCardCtx
                 >>= relativizeUrls
