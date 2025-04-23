@@ -53,7 +53,7 @@ main = hakyll $ do
           route idRoute
           compile $ do
             -- load each programs/*/index.md as an Item
-            items     <- loadAll "programs/*/index.md"
+            items     <- (loadAll "programs/*/index.md" :: Compiler [Item String])
             -- for each one, look up its front‐matter
             metadata  <- forM items $ \item ->
               getMetadata (itemIdentifier item)
