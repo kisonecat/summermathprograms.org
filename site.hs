@@ -11,6 +11,7 @@ main = hakyll $ do
                                 mjs <- getRoute "static/js/bundle.js"
                                 return (maybe "/static/js/bundle.js" id mjs))
                  <> defaultContext
+        postCtx = dateField "date" "%B %e, %Y" <> assetCtx
     -- Copy static files
     match "images/*" $ do
         route   idRoute
@@ -41,5 +42,3 @@ main = hakyll $ do
 
     -- Templates
     match "templates/*" $ compile templateBodyCompiler
-where
-    postCtx = dateField "date" "%B %e, %Y" <> assetCtx
