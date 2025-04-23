@@ -4,25 +4,31 @@ import Hakyll
 
 main :: IO ()
 main = hakyll $ do
-    let cacheBustCtx = defaultContext <> constField "cacheBust" "v=2684b4a"
+    let assetCtx = field "cssPath" (\_ -> do
+                                mcss <- getRoute "static/css/main.css"
+                                return (maybe "/static/css/main.css" id mcss))
+                 <> field "jsPath" (\_ -> do
+                                mjs <- getRoute "static/js/bundle.js"
+                                return (maybe "/static/js/bundle.js" id mjs))
+                 <> defaultContext
     -- Copy static files
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler
 
     match "static/css/*" $ do
-        route   idRoute
+        route   fingerprintRoute
         compile compressCssCompiler
 
     match "static/js/*" $ do
-        route   idRoute
+        route   fingerprintRoute
         compile copyFileCompiler
 
     -- Build pages from Markdown with YAML headers
     match (fromList ["about.md", "contact.md"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/default.html" cacheBustCtx
+            >>= loadAndApplyTemplate "templates/default.html" assetCtx
             >>= relativizeUrls
 
     -- Posts
@@ -36,4 +42,4 @@ main = hakyll $ do
     -- Templates
     match "templates/*" $ compile templateBodyCompiler
   where
-    postCtx = dateField "date" "%B %e, %Y" <> cacheBustCtx
+    postCtx = dateField "date" "%B %e, %Y" <> assetCtx
