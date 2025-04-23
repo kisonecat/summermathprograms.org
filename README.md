@@ -108,11 +108,16 @@ The goal of this project is to design and build a public-facing, static website 
 
 ## Deployment
 
-Automated via GitHub Actions on push to `main`:
+Automated deployment is configured via GitHub Actions. Every push to the `main` branch triggers the following steps:
 
-1. Install dependencies
-2. Build static site
-3. Deploy to GitHub Pages (or configured host)
+1. `npm install` to install dependencies.
+2. `npm run build` to build the static site.
+3. The site is automatically deployed to GitHub Pages.
+
+For manual deployment, you can run:
+```bash
+npm run deploy
+```
 
 ---
 
