@@ -9,6 +9,7 @@ import Data.List (stripPrefix)
 import Data.Aeson (encode)
 import qualified Data.ByteString.Lazy.Char8 as BL
 import qualified Data.Map as M
+import Control.Monad.Error.Class (catchError)
 import Data.Time (getCurrentTime)
 import Data.Time.Calendar (toGregorian)
 import Data.Time.Clock (utctDay)
