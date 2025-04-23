@@ -2,6 +2,7 @@
 -- Build with: stack build --nix ; Run with: stack exec site
 import Hakyll
 import Control.Arrow ((>>>))
+import Control.Monad (forM)
 import System.FilePath (takeDirectory)
 import Data.Aeson (encode)
 import qualified Data.ByteString.Lazy.Char8 as BL
@@ -48,14 +49,17 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/default.html" postCtx
                 >>= relativizeUrls
 
-        -- Generate programs.json from YAML front matter of programs/*/index.md
         create ["programs.json"] $ do
-            route idRoute
-            compile $ do
-                metadataPairs <- getAllMetadata "programs/*/index.md"
-                let metadataList = map snd metadataPairs
-                let json = BL.unpack (encode metadataList)
-                makeItem json
+          route idRoute
+          compile $ do
+            -- load each programs/*/index.md as an Item
+            items     <- loadAll "programs/*/index.md"
+            -- for each one, look up its front‐matter
+            metadata  <- forM items $ \item ->
+              getMetadata (itemIdentifier item)
+            -- metadata :: [M.Map String String]
+            let json = BL.unpack (encode metadata)
+            makeItem json
 
         -- Templates
         match "templates/*" $ compile templateBodyCompiler
