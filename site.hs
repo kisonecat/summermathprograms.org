@@ -26,15 +26,15 @@ cleanRoute = customRoute $ \ident ->
      else if null dir then file ++ "/index.html"
           else dir ++ "/" ++ file ++ "/index.html"
 
-theYearField :: Context String
-theYearField = field "theYear" $ \_ -> do
+theYear :: Context String
+theYear = field "theYear" $ \_ -> do
     time <- unsafeCompiler getCurrentTime
-    let (_, year, _) = toGregorian (utctDay time)
+    let (year, _, _) = toGregorian (utctDay time)
     return (show year)
 
 main :: IO ()
 main = hakyll $ do
-        let assetCtx = defaultContext <> theYearField
+        let assetCtx = defaultContext <> theYear
             postCtx = dateField "date" "%B %e, %Y" <> assetCtx
 
         -- Copy static files
