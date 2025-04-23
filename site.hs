@@ -1,13 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- Build with: stack build --nix ; Run with: stack exec site
 import Hakyll
-import Hakyll.Contrib.Routes.CleanRoute (cleanRoute)
+-- import Hakyll.Contrib.Routes.CleanRoute (cleanRoute)
 import Control.Arrow ((>>>))
 import Control.Monad (forM)
-import System.FilePath (takeDirectory)
+import System.FilePath (takeDirectory, dropExtension, takeFileName)
 import Data.Aeson (encode)
 import qualified Data.ByteString.Lazy.Char8 as BL
 import qualified Data.Map as M
+
+cleanRoute :: Routes
+cleanRoute = customRoute $ \ident ->
+  let fp   = toFilePath ident
+      name = dropExtension (takeFileName fp)
+  in name ++ "/index.html"
 
 main :: IO ()
 main = hakyll $ do
