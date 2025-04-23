@@ -28,6 +28,14 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/default.html" assetCtx
                 >>= relativizeUrls
 
+        -- Programs pages: convert programs/*/index.md to programs/<directory>.html
+        match "programs/*/index.md" $ do
+            route $ customRoute (\identifier ->
+                let p = toFilePath identifier in (takeDirectory p) ++ ".html")
+            compile $ pandocCompiler
+                >>= loadAndApplyTemplate "templates/default.html" assetCtx
+                >>= relativizeUrls
+
         -- Posts
         match "posts/*" $ do
             route $ setExtension "html"
