@@ -4,6 +4,7 @@ import Hakyll
 
 main :: IO ()
 main = hakyll $ do
+    let cacheBustCtx = constField "cacheBust" "v=2684b4a" <> defaultContext
     -- Copy static files
     match "images/*" $ do
         route   idRoute
@@ -21,7 +22,7 @@ main = hakyll $ do
     match (fromList ["about.md", "contact.md"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
+            >>= loadAndApplyTemplate "templates/default.html" cacheBustCtx
             >>= relativizeUrls
 
     -- Posts
@@ -35,4 +36,4 @@ main = hakyll $ do
     -- Templates
     match "templates/*" $ compile templateBodyCompiler
   where
-    postCtx = dateField "date" "%B %e, %Y" <> defaultContext
+    postCtx = dateField "date" "%B %e, %Y" <> cacheBustCtx
