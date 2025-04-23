@@ -1,17 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- Build with: stack build --nix ; Run with: stack exec site
 import Hakyll
-import Hakyll.Core.Routes (fingerprintRoute)
 
 main :: IO ()
 main = hakyll $ do
-    let assetCtx = field "cssPath" (\_ -> do
-                                mcss <- getRoute "static/css/main.css"
-                                return (maybe "/static/css/main.css" id mcss))
-                 <> field "jsPath" (\_ -> do
-                                mjs <- getRoute "static/js/bundle.js"
-                                return (maybe "/static/js/bundle.js" id mjs))
-                 <> defaultContext
+    let assetCtx = defaultContext
         postCtx = dateField "date" "%B %e, %Y" <> assetCtx
     -- Copy static files
     match "images/*" $ do
@@ -19,11 +12,11 @@ main = hakyll $ do
         compile copyFileCompiler
 
     match "static/css/*" $ do
-        route   fingerprintRoute
+        route   idRoute
         compile compressCssCompiler
 
     match "static/js/*" $ do
-        route   fingerprintRoute
+        route   idRoute
         compile copyFileCompiler
 
     -- Build pages from Markdown with YAML headers
