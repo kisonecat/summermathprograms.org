@@ -25,7 +25,7 @@ main = do
 
     -- Build pages from Markdown with YAML headers
     match "pages/*.md" $ do
-        route $ gsubRoute "posts/" (const "") `composeRoutes` setExtension "html"
+        route $ customRoute (takeBaseName . toFilePath >>> (<.> "html"))
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" assetCtx
             >>= relativizeUrls
