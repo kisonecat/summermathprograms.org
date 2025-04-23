@@ -20,6 +20,8 @@ jobs:
       - name: Build static site
         run: |
           stack build
+          npm install
+          npm run build
           stack exec site -- build
 
       - name: Deploy to GitHub Pages
