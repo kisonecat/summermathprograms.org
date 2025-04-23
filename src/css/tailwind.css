@@ -2,26 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  .prose h2 {
-    @apply text-2xl font-bold mt-6 mb-2;
-  }
-  .prose h3 {
-    @apply text-xl font-semibold mt-5 mb-2;
-  }
-  .prose strong {
-    @apply font-bold;
-  }
-  .prose ul {
-    @apply list-disc ml-6 mb-4;
-  }
-  .prose ol {
-    @apply list-decimal ml-6 mb-4;
-  }
-  .prose p {
-    @apply mb-4;
-  }
-  .prose a {
-    @apply text-blue-600 hover:underline;
-  }
+.prose h1 {
+    @apply text-3xl font-bold mt-6 mb-2;
 }
+.prose h2 {
+    @apply text-2xl font-bold mt-6 mb-2;
+}
+.prose h3 {
+    @apply text-xl font-semibold mt-5 mb-2;
+}
+.prose strong {
+    @apply font-bold;
+}
+.prose ul {
+    @apply list-disc ml-6 mb-4;
+}
+.prose ol {
+    @apply list-decimal ml-6 mb-4;
+}
+.prose p {
+    @apply mb-4;
+}
+.prose a {
+    @apply text-blue-600 hover:underline;
+}
+
