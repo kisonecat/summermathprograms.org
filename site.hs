@@ -2,6 +2,7 @@
 -- Build with: stack build --nix ; Run with: stack exec site
 import Hakyll
 import Control.Arrow ((>>>))
+import System.FilePath (takeDirectory)
 
 main :: IO ()
 main = hakyll $ do
