@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- Build with: stack build --nix ; Run with: stack exec site
 import Hakyll
+import Control.Arrow ((>>>))
 
 main :: IO ()
 main = do
@@ -24,8 +25,7 @@ main = do
 
     -- Build pages from Markdown with YAML headers
     match "pages/*.md" $ do
-        route   $ customRoute (\ident ->
-            let p = toFilePath ident in drop (length "pages/") p ++ ".html")
+        route   $ customRoute (takeBaseName . toFilePath >>> (<.> "html"))
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" assetCtx
             >>= relativizeUrls
