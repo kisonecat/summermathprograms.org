@@ -86,8 +86,8 @@ main = hakyll $ do
         match "programs/*/index.md" $ version "card" $ do
             route $ customRoute (\ident ->
                 let fp = toFilePath ident
-                    name = dropExtension (takeFileName fp)
-                in "partials/" ++ name ++ ".html")
+                    dir = takeDirectory fp
+                in "partials/" ++ dir ++ ".html")
             compile $ pandocCompilerWithTransform defaultHakyllReaderOptions defaultHakyllWriterOptions addProseDiv
                 >>= loadAndApplyTemplate "templates/program_partial.html" programCardCtx
                 >>= relativizeUrls
