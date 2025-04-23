@@ -20,7 +20,7 @@ main = hakyll $ do
         compile copyFileCompiler
 
     -- Build pages from Markdown with YAML headers
-    match (fromList ["about.md", "contact.md"]) $ do
+    match "pages/*.md" $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" assetCtx
