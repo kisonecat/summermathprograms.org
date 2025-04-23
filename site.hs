@@ -40,6 +40,10 @@ main :: IO ()
 main = hakyll $ do
         let assetCtx = defaultContext <> theYear
             postCtx = dateField "date" "%B %e, %Y" <> assetCtx
+            programCardCtx = field "excerpt" (\item -> do
+                                  let body = itemBody item
+                                  return (if length body > 150 then take 150 body ++ "..." else body))
+                               <> assetCtx
 
         -- Copy static files
         match "images/*" $ do
@@ -84,7 +88,7 @@ main = hakyll $ do
                     name = dropExtension (takeFileName fp)
                 in "partials/" ++ name ++ ".html")
             compile $ pandocCompilerWithTransform defaultHakyllReaderOptions defaultHakyllWriterOptions addProseDiv
-                >>= loadAndApplyTemplate "templates/program_partial.html" assetCtx
+                >>= loadAndApplyTemplate "templates/program_partial.html" programCardCtx
                 >>= relativizeUrls
 
         -- Posts
