@@ -9,11 +9,11 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
-    match "css/*" $ do
+    match "static/css/*" $ do
         route   idRoute
         compile compressCssCompiler
 
-    match "js/*" $ do
+    match "static/js/*" $ do
         route   idRoute
         compile copyFileCompiler
 
