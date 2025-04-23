@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- Build with: stack build --nix ; Run with: stack exec site
 import Hakyll
-import Hakyll.Core.Util.Fingerprint (fingerprintRoute)
+import Hakyll.Web.Routes (fingerprintRoute)
 
 main :: IO ()
 main = hakyll $ do
