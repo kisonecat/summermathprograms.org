@@ -52,8 +52,8 @@ main = hakyll $ do
         create ["programs.json"] $ do
             route idRoute
             compile $ do
-                metadataMap <- getAllMetadata "programs/*/index.md"
-                let metadataList = M.elems metadataMap
+                metadataPairs <- getAllMetadata "programs/*/index.md"
+                let metadataList = map snd metadataPairs
                 let json = BL.unpack (encode metadataList)
                 makeItem json
 
