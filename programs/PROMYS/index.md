@@ -1,4 +1,7 @@
 ---
+title: PROMYS Program
+excerpt: "PROMYS is a prestigious summer math program for talented high school students."
+date: "2025-07-01"
 email: promys@bu.edu
 contact_name: PROMYS Program Office
 program_full_name: Program in Mathematics for Young Scientists (PROMYS)
