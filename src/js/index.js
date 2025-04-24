@@ -1,4 +1,4 @@
-import "htmx.org";
+import htmx from "htmx.org";
 
 document.addEventListener("DOMContentLoaded", () => {
   fetch("/programs.json")
