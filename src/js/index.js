@@ -1,4 +1,4 @@
-import htmx from "htmx.org";
+import "htmx.org/dist/htmx.min.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   fetch("/programs.json")
