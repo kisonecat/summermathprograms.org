@@ -104,13 +104,17 @@ main = hakyll $ do
         create ["programs.json"] $ do
           route idRoute
           compile $ do
-            -- load each programs/*/index.md as an Item
-            items     <- (loadAll "programs/*/index.md" :: Compiler [Item String])
-            -- for each one, look up its front‐matter
-            metadata  <- forM items $ \item ->
-              getMetadata (itemIdentifier item) `catchError` (\_ -> return mempty)
-            -- metadata :: [M.Map String String]
-            let json = BL.unpack (encode metadata)
+            -- Load each programs/*/index.md as an Item.
+            items <- (loadAll "programs/*/index.md" :: Compiler [Item String])
+            let extractKey ident =
+                  let fp = toFilePath ident
+                      dir = takeDirectory fp
+                  in takeFileName dir
+            pairs <- forM items $ \item -> do
+                       meta <- getMetadata (itemIdentifier item) `catchError` (\_ -> return mempty)
+                       let key = extractKey (itemIdentifier item)
+                       return (key, meta)
+            let json = BL.unpack (encode (M.fromList pairs))
             makeItem json
 
         -- Templates
