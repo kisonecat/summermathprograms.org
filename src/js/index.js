@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("JavaScript is running!");
-  fetch("programs.json")
+  fetch("/programs.json")
     .then(response => response.json())
     .then(data => {
       const programList = document.querySelector(".program-list");
