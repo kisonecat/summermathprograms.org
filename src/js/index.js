@@ -1,3 +1,5 @@
+import "htmx.org";
+
 document.addEventListener("DOMContentLoaded", () => {
   fetch("/programs.json")
     .then(response => response.json())
