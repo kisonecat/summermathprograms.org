@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
           container.setAttribute("hx-get", `/partials/programs/${key}.html`);
           container.setAttribute("hx-trigger", "load");
           programList.appendChild(container);
+          htmx.process(container);
         });
       }
     })
