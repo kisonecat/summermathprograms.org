@@ -128,7 +128,9 @@ main = hakyll $ do
 
         match "media/**/*.jpg" $ do
             route   idRoute
-            compile $ getResourceLBS >>= unsafeCompiler . optimizeJpg
+            compile $ getResourceLBS >>= (\item ->
+                           unsafeCompiler (optimizeJpg (itemBody item))
+                             >>= (\bs -> return (itemSetBody bs item)))
 
         -- Templates
         match "templates/*" $ compile templateBodyCompiler
