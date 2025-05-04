@@ -8,6 +8,7 @@ import System.FilePath (takeDirectory, dropExtension, takeFileName)
 import Data.List (stripPrefix)
 import Data.Aeson (encode)
 import qualified Data.ByteString.Lazy.Char8 as BL
+import System.Process (readProcess)
 import qualified Data.Map as M
 import Control.Monad.Error.Class (catchError)
 import Data.Time (getCurrentTime)
@@ -36,6 +37,14 @@ theYear = field "theYear" $ \_ -> do
 
 addProseDiv :: Pandoc -> Pandoc
 addProseDiv (Pandoc meta blocks) = Pandoc meta [Div ("", ["prose", "prose-lg", "mx-auto"], []) blocks]
+
+optimizeJpg :: BL.ByteString -> IO BL.ByteString
+optimizeJpg input = do
+  let tempFile = "temp.jpg"
+  BL.writeFile tempFile input
+  _ <- readProcess "jpegoptim" ["--strip-all", "--all-progressive", "--max=85", tempFile] ""
+  optimized <- BL.readFile tempFile
+  return optimized
 
 main :: IO ()
 main = hakyll $ do
@@ -116,6 +125,10 @@ main = hakyll $ do
                        return (key, meta)
             let json = BL.unpack (encode (M.fromList pairs))
             makeItem json
+
+        match "media/**/*.jpg" $ do
+            route   idRoute
+            compile $ getResourceLBS >>= unsafeCompiler . optimizeJpg
 
         -- Templates
         match "templates/*" $ compile templateBodyCompiler
