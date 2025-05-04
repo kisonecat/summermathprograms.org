@@ -9,6 +9,8 @@ import Data.List (stripPrefix)
 import Data.Aeson (encode)
 import qualified Data.ByteString.Lazy.Char8 as BL
 import System.Process (readProcess)
+import System.IO.Temp (withSystemTempFile)
+import System.IO (hClose)
 import qualified Data.Map as M
 import Control.Monad.Error.Class (catchError)
 import Data.Time (getCurrentTime)
@@ -39,12 +41,12 @@ addProseDiv :: Pandoc -> Pandoc
 addProseDiv (Pandoc meta blocks) = Pandoc meta [Div ("", ["prose", "prose-lg", "mx-auto"], []) blocks]
 
 optimizeJpg :: BL.ByteString -> IO BL.ByteString
-optimizeJpg input = do
-  let tempFile = "temp.jpg"
-  BL.writeFile tempFile input
-  _ <- readProcess "jpegoptim" ["--strip-all", "--all-progressive", "--max=85", tempFile] ""
-  optimized <- BL.readFile tempFile
-  return optimized
+optimizeJpg input =
+  withSystemTempFile "temp.jpg" $ \tempFile tempHandle -> do
+    BL.hPut tempHandle input
+    hClose tempHandle
+    _ <- readProcess "jpegoptim" ["--strip-all", "--all-progressive", "--max=85", tempFile] ""
+    BL.readFile tempFile
 
 main :: IO ()
 main = hakyll $ do
