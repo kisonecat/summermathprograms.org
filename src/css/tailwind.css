@@ -45,3 +45,7 @@
   }
 }
 
+body {
+  overflow-x: hidden;
+}
+
