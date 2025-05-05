@@ -12,14 +12,37 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Haskell Stack
-        uses: haskell/actions/setup@v1
+      - name: Install jpegoptim
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jpegoptim
+
+      - name: Set up Stack
+        uses: actions-hs/setup-stack@v2
         with:
-          stack-version: '2.7.1'
+          stack-version: '2.7.1'   # pick your desired Stack CLI version
+
+      - name: Cache Stack and GHC
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.stack
+            ~/.ghc
+          key: ${{ runner.os }}-stack-${{ hashFiles('stack.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-stack-
+
+      - name: Setup GHC
+        run: stack setup --no-terminal
+
+      - name: Install project dependencies
+        run: stack build --only-dependencies --no-terminal
+
+      - name: Build with Stack
+        run: stack build --no-terminal
 
       - name: Build static site
         run: |
-          stack build
           npm install
           npm run build
           stack exec site -- build
