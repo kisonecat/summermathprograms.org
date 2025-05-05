@@ -1,2 +1,57 @@
-.aider*
-.env
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log
+
+# Hakyll
+_site/
+.cache/
+
+# Haskell Stack
+.stack-work/
+dist/
+dist-newstyle/
+cabal.project.local
+cabal.project.local~
+cabal.sandbox.config
+cabal.config
+*.hi
+*.o
+*.dyn_o
+*.dyn_hi
+*.prof
+*.aux
+*.hp
+*.eventlog
+*.tix
+
+# Emacs
+*~
+\#*\#
+.\#*
+.emacs.desktop
+.emacs.desktop.lock
+auto-save-list/
+tramp
+url/cache/
+eln-cache/
+*.elc
+eshell/
+*flymake*
+flycheck_*.el
+projectile-bookmarks.eld
+
+# MacOS
+.DS_Store
+
+# General
+*.swp
+*.bak
+*.tmp
+*.log
+*.out
+*.toc
+
