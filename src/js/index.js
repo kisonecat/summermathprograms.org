@@ -2,7 +2,7 @@ import htmx from "htmx.org";
 import Fuse from "fuse.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("/programs.json")
+  fetch("programs.json")
     .then(response => response.json())
     .then(data => {
       // Grab the full query string, including the leading "?"
