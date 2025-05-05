@@ -22,21 +22,49 @@ jobs:
         with:
           stack-version: '2.7.1'   # pick your desired Stack CLI version
 
-      - name: Cache Stack and GHC
+      - name: Cache GHC installation
+        id: ghc
+        uses: actions/cache@v3
+        with:
+          path: ~/.stack/programs/*/ghc-*
+          key: ghc-${{ env.GHC_VERSION }}
+
+      - name: Install GHC via Stack
+        if: steps.ghc.outputs.cache-hit != 'true'
+        run: stack setup --no-terminal
+
+      - name: Cache Pantry
+        id: pantry
+        uses: actions/cache@v3
+        with:
+          path: ~/.stack/pantry
+          key: pantry-${{ env.STACK_LTS }}
+
+      - name: Restore Pantry
+        if: steps.pantry.outputs.cache-hit != 'true'
+        run: stack update --no-terminal
+
+      - name: Cache Haskell dependencies
+        id: deps
         uses: actions/cache@v3
         with:
           path: |
-            ~/.stack
-            ~/.ghc
-          key: ${{ runner.os }}-stack-${{ hashFiles('stack.yaml') }}
+            ~/.stack/stack.sqlite3
+            ~/.stack/snapshots
+          key: deps-${{ hashFiles('stack.yaml.lock') }}
           restore-keys: |
-            ${{ runner.os }}-stack-
-
-      - name: Setup GHC
-        run: stack setup --no-terminal
+            deps-
 
       - name: Install project dependencies
+        if: steps.deps.outputs.cache-hit != 'true'
         run: stack build --only-dependencies --no-terminal
+
+      - name: Cache project build state
+        id: build
+        uses: actions/cache@v3
+        with:
+          path: .stack-work
+          key: build-${{ hashFiles('stack.yaml.lock') }}
 
       - name: Build with Stack
         run: stack build --no-terminal
