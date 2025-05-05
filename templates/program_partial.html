@@ -5,22 +5,16 @@
   </div>
   <!-- Content with description and details -->
   <div class="px-6 py-4">
-    
+
+    $if(location)$
     <div class="mb-2">
       <span class="text-gray-600 text-sm font-semibold">Location:</span>
       <span class="text-gray-800 text-sm">$location$</span>
     </div>
+    $endif$
     <div class="mb-2">
       <span class="text-gray-600 text-sm font-semibold">Cost:</span>
       <span class="text-gray-800 text-sm">$cost$</span>
-    </div>
-    <div class="mb-2">
-      <span class="text-gray-600 text-sm font-semibold">Audience:</span>
-      <span class="text-gray-800 text-sm">$audience$</span>
-    </div>
-    <div class="mb-2">
-      <span class="text-gray-600 text-sm font-semibold">Duration:</span>
-      <span class="text-gray-800 text-sm">$duration$</span>
     </div>
   </div>
   <!-- Footer with Read More button -->

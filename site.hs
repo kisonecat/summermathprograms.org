@@ -73,7 +73,7 @@ main = hakyll $ do
         match "pages/index.md" $ do
             route $ constRoute "index.html"
             compile $ pandocCompilerWithTransform defaultHakyllReaderOptions defaultHakyllWriterOptions addProseDiv
-                >>= loadAndApplyTemplate "template/landing.html" assetCtx
+                >>= loadAndApplyTemplate "templates/landing.html" assetCtx
                 >>= relativizeUrls
 
         -- Build pages from Markdown with YAML headers

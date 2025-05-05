@@ -1,17 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>$title$</title>
-  <link rel="stylesheet" href="/static/css/main.css">
+  <!-- Tailwind CSS via CDN -->
+  <link rel="stylesheet" href="/static/css/main.css">  
 </head>
-<body>
-$partial("templates/header.html")$
-  <main>
+<body class="flex flex-col min-h-screen">
+  $partial("templates/header.html")$
+  
+  <main class="flex-grow container mx-auto py-8 px-6">
     $body$
   </main>
-$partial("templates/footer.html")$
+
+  $partial("templates/footer.html")$
   <script src="/static/js/bundle.js"></script>
 </body>
 </html>

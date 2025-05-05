@@ -1,5 +1,5 @@
 ---
-title: "Index"
+title: Summer Math Programs
 date: "2025-04-22"
 ---
 
