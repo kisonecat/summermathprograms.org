@@ -18,7 +18,7 @@ jobs:
           sudo apt-get install -y jpegoptim
 
       - name: Set up Stack
-        uses: actions-hs/setup-stack@v2
+        uses: haskell/actions/setup@v1
         with:
           stack-version: '2.7.1'   # pick your desired Stack CLI version
 
