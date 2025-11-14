@@ -7,5 +7,7 @@ title: Search
 Filters
 </h3>
 </div>
-<div class="block mb-2 text-sm font-medium text-gray-700"><span id="match-count" class="font-semibold text-gray-800">0</span></div>
+<div class="block mb-2 text-sm font-medium text-gray-700">
+  <span id="match-count" class="font-semibold text-gray-800">0</span>
+</div>
 <div class="program-list"></div>
