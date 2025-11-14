@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         results.forEach(key => {
           const container = document.createElement("div");
-          container.setAttribute("hx-get", `/partials/programs/${key}.html`);
+          container.setAttribute("hx-get", `/summermathprograms.org/partials/programs/${key}.html`);
           container.setAttribute("hx-trigger", "load");
           container.setAttribute("data-key", key);
           programList.appendChild(container);
