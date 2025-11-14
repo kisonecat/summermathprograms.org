@@ -119,13 +119,4 @@ For manual deployment, you can run:
 npm run deploy
 ```
 
----
 
-## Project Timeline
-
-| Milestone                                | Target Date       |
-|------------------------------------------|-------------------|
-| Design & functionality prototype         | May 2025          |
-| Complete program profiles & content      | July 2025         |
-| Testing & deployment preparation         | August 2025       |
-| Public MVP launch                        | September 2025    |
