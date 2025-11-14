@@ -1,10 +1,32 @@
 import htmx from "htmx.org";
 import Fuse from "fuse.js";
 
+import * as filterAge from "./age";
+import * as filterGrade from "./grade";
+
+function debounce(func, timeout = 100){
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
+}
+
+function applyFilters( filters, data ) {
+  for( f of filters ) {
+    if (f(data) !== true)
+      return f(data);
+  }
+
+  return true;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("programs.json")
+  fetch("/summermathprograms.org/programs.json")
     .then(response => response.json())
     .then(data => {
+      let filters = { age: () => true, grade: () => true };
+
       // Grab the full query string, including the leading "?"
       const queryString = window.location.search;
 
@@ -15,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const search = params.get('q');       // e.g. ?foo=bar → "bar"
 
       const programList = document.querySelector(".program-list");
+
       if (programList) {
         let results = Object.keys(data);
 
@@ -46,13 +69,47 @@ document.addEventListener("DOMContentLoaded", () => {
           const container = document.createElement("div");
           container.setAttribute("hx-get", `/partials/programs/${key}.html`);
           container.setAttribute("hx-trigger", "load");
+          container.setAttribute("data-key", key);
           programList.appendChild(container);
           htmx.process(container);
         });
       }
+
+      function render() {
+        let count = 0;
+
+        Array.from(programList.children).forEach(child => {
+          const key = child.dataset.key;
+          const isAccepted = applyFilters( Object.values(filters), data[key] );
+          if (isAccepted === true) count = count + 1;
+          child.classList.toggle('hidden', isAccepted !== true);
+
+          if (count != 1)
+            document.getElementById('match-count').textContent = `${count} matching programs`;
+          else
+            document.getElementById('match-count').textContent = `1 matching program`;
+        });
+      }
+
+      render();
+      
+      const filterElement = document.querySelector("#filters");
+      if (filterElement) {
+        filterAge.setup( filterElement, (f) => {
+          filters.age = f;
+          requestAnimationFrame(render);
+        });
+        filterElement.insertAdjacentHTML('beforeend', `<hr/>`);
+        filterGrade.setup( filterElement, (f) => {
+          filters.grade = f;
+          requestAnimationFrame(render);
+        });
+      }
     })
     .catch(error => console.error("Error fetching programs.json:", error));
+});
 
+document.addEventListener("DOMContentLoaded", () => {
   // Slider code for hero section on the landing page
   const slides = document.querySelectorAll('.hero-slide');
   const indicators = document.querySelectorAll('#slider-indicators button');
