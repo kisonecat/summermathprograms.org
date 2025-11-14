@@ -3,7 +3,6 @@
   <div class="bg-blue-500 px-6 py-4">
     <h2 class="text-white font-bold text-2xl">$title$</h2>
   </div>
-  <!-- Content with description and details -->
   <div class="px-6 py-4">
 
     $if(location)$
@@ -16,12 +15,14 @@
       <span class="text-gray-600 text-sm font-semibold">Cost:</span>
       <span class="text-gray-800 text-sm">$cost$</span>
     </div>
+    <div class="mb-2">
+      <span class="text-gray-800 text-sm">$excerpt$</span>
+    </div>
   </div>
   <!-- Footer with Read More button -->
   <div class="px-6 py-4 bg-gray-100 flex items-center justify-between">
     <a href="$url$" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
       Read More
     </a>
-    <span class="text-gray-600 text-sm">$excerpt$</span>
   </div>
 </div>

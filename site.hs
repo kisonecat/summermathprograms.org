@@ -96,8 +96,9 @@ main = hakyll $ do
                     dir = takeDirectory fp
                 in dir ++ "/index.html")
             compile $ pandocCompilerWithTransform defaultHakyllReaderOptions defaultHakyllWriterOptions addProseDiv
-                >>= loadAndApplyTemplate "templates/default.html" assetCtx
-                >>= relativizeUrls
+              >>= loadAndApplyTemplate "templates/program.html" assetCtx
+              >>= loadAndApplyTemplate "templates/default.html" assetCtx
+              >>= relativizeUrls
 
         -- Generate program card partials for each program markdown file
         match "programs/*/index.md" $ version "card" $ do
