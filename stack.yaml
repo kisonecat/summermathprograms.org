@@ -6,11 +6,4 @@ packages:
 extra-deps:
 - hakyll-4.16.6.0@sha256:5ebca16c5eb42fa069277ae300b4ec9086245b77ea46278f9788f26ecff3e98b,9964
 
-nix:
-  enable: true
-  shell-file: shell.nix
-
-system-ghc: true
-install-ghc: false
-
 flags: {}
