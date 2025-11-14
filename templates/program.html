@@ -1,0 +1,149 @@
+<!-- Header -->
+<h1 class="text-3xl font-extrabold text-gray-800">$title$</h1>
+<div>
+  $body$
+</div>
+
+<hr/>
+
+<section id="eligibility" class="mb-8">
+  <h2 class="text-2xl font-semibold text-gray-700 mb-4">Eligibility</h2>
+  <div class="space-y-2 text-gray-800">
+    AGES?
+    $if(ages)$<p>AGES= $ages$</p>
+    <p><span class="font-semibold">Ages:</span>
+      $for(ages)$
+      $it$$sep$, $endfor$
+      $it$
+    </p>
+    $endif$
+    
+    $if(age_comments)$
+    <p><span class="font-semibold"></span> $age_comments$</p>
+    $endif$
+    
+    $if(grades)$
+    <p><span class="font-semibold">Grades = $grades$</span>
+      $for(grades)$
+      $it$$sep$, $endfor$
+      $it$
+    </p>
+    $endif$
+    
+    $if(eligibility.grade_comments)$
+    <p><span class="font-semibold">Grade notes:</span> $eligibility.grade_comments$</p>
+    $endif$
+    $if(eligibility.citizenship)$
+    <p><span class="font-semibold">Citizenship:</span>
+      $for(eligibility.citizenship)$
+      $it$$sep$, $endfor$
+      $it$
+    </p>
+    $endif$
+    $if(eligibility.required_math_background)$
+    <p><span class="font-semibold">Background required:</span> $eligibility.required_math_background$</p>
+    $endif$
+  </div>
+</section>
+
+<hr/>
+
+<!-- Admissions -->
+<section id="admissions" class="mb-8">
+  <h2 class="text-2xl font-semibold text-gray-700 mb-4">Admissions</h2>
+  <div class="space-y-2 text-gray-800">
+    $if(admissions.season_description)$
+    <p>$admissions.season_description$</p>
+    $endif$
+    <div class="flex flex-wrap gap-4">
+      $if(admissions.open_date_2024)$
+      <div><span class="font-semibold">Opens:</span> $admissions.open_date_2024$</div>
+      $endif$
+      $if(admissions.deadline_2024)$
+      <div><span class="font-semibold">Deadline:</span> $admissions.deadline_2024$</div>
+      $endif$
+    </div>
+    $if(admissions.process_description)$
+    <p class="mt-2"><span class="font-semibold">Process:</span> $admissions.process_description$</p>
+    $endif$
+  </div>
+</section>
+
+<hr/>
+
+<!-- Cost -->
+<section id="cost" class="mb-8">
+  <h2 class="text-2xl font-semibold text-gray-700 mb-4">Cost</h2>
+  $if(cost)$
+  <p class="text-gray-800">$cost$</p>
+  $endif$
+  $if(extra_fees)$
+  <p class="mt-2"><span class="font-semibold">Extra fees:</span>
+    $for(extra_fees)$
+    <li class="list-disc list-inside">$it$</li>
+    $endfor$
+  </p>
+  $endif$
+</section>
+
+<hr/>
+
+<!-- Program Experience -->
+<section id="experience" class="mb-8">
+  <h2 class="text-2xl font-semibold text-gray-700 mb-4">Program Experience</h2>
+  <div class="space-y-4 text-gray-800">
+    $if(experience.summary)$
+    <p>$experience.summary$</p>
+    $endif$
+    $if(experience.typical_day)$
+    <p><span class="font-semibold">Typical day:</span> $experience.typical_day$</p>
+    $endif$
+    $if(experience.math_activities)$
+    <div>
+      <span class="font-semibold">Math activities:</span>
+      <ul class="list-disc list-inside mt-1">
+        $for(experience.math_activities)$
+        <li>$it$</li>
+        $endfor$
+      </ul>
+    </div>
+    $endif$
+    $if(experience.non_math_activities)$
+    <div>
+      <span class="font-semibold">Non‑math activities:</span>
+      <ul class="list-disc list-inside mt-1">
+        $for(experience.non_math_activities)$
+        <li>$it$</li>
+        $endfor$
+      </ul>
+    </div>
+    $endif$
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      $if(experience.total_students)$
+      <div><span class="font-semibold">Total students:</span> $experience.total_students$</div>
+      $endif$
+      $if(experience.staff_student_ratio)$
+      <div><span class="font-semibold">Staff‑student ratio:</span> $experience.staff_student_ratio$</div>
+      $endif$
+      $if(experience.average_class_size)$
+      <div><span class="font-semibold">Avg. class size:</span> $experience.average_class_size$</div>
+      $endif$
+    </div>
+  </div>
+</section>
+
+<!-- Footer / Apply link -->
+<div class="flex items-center justify-between">
+  $if(url)$
+  <a href="$url$" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+    Learn More & Apply
+  </a>
+  $endif$
+  $if(email)$
+  <a href="mailto:$email$" class="text-sm text-gray-600 hover:underline">
+    Contact: $contact_name$
+  </a>
+  $endif$
+</div>
+
+
