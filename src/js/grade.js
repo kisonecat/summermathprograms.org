@@ -57,7 +57,7 @@ export function setup(container, update) {
       rangeDisplay.textContent = `${min} – ${max}`;
     }
     
-    update( program => program.eligibility.grades.some( grade => grade >= min && grade <= max ) ||
+    update( program => (program.eligibility && program.eligibility.grades.some( grade => grade >= min && grade <= max )) ||
             "does not satisfy grade filter" );
   }
 

@@ -57,7 +57,7 @@ export function setup(container, update) {
       rangeDisplay.textContent = `${min} – ${max} years old`;
     }
     
-    update( program => program.eligibility.ages.some( age => age >= min && age <= max ) ||
+    update( program => (program.eligibility && program.eligibility.ages.some( age => age >= min && age <= max )) ||
             "does not satisfy age filter" );
   }
 
